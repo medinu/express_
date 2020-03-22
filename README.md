@@ -1,4 +1,5 @@
 # Making the best out of the quarentine
+## Name: Dinesh Pandey
 ___
 
 ## Learning Log
@@ -21,4 +22,5 @@ ___
 * make and update a separate log file
 * Upload meaningful html files rather than using dummy static files
 * learn some more and add functionality.
+* use a significant portion of readme to explain code.
  
