@@ -5,7 +5,7 @@ const logger = require('./middleware/logger')
 const app = express();
 
 //logger middleware
-//app.use(logger);
+app.use(logger);
 
 // Body parser middleware
 app.use(express.json());
