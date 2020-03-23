@@ -40,8 +40,8 @@ router.post('/', (req, res)=> {
 
     members.push(newMember);
 
-    res.json(members);
-    //res.redirect('/');
+    //res.json(members);
+    res.redirect('/');
 })
 
 // [API] edits a member by id
