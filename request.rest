@@ -1,24 +1,24 @@
-###
+### //add new member
 post http://localhost:5000/api/members
 Content-Type: application/json
 
 {
-    "first_name": "Test",
-    "last_name": "Wayne",
-    "relation": "Test of Bruce"
+    "first_name": "Batman",
+    "last_name": "",
+    "relation": "Vigilant of Gotham"
 } 
 
-###
+### // view all members
 get http://localhost:5000/api/members
 
 
-###
-put http://localhost:5000/api/members/3
+### // edit one single member detail
+put http://localhost:5000/api/members/
 Content-Type: application/json
 
 {
-    "first_name": "Mr. J"
+    "first_name": "Batsy"
 }
 
-###
-delete http://localhost:5000/api/members/5e16f333-9706-4507-9759-5821d917de9b
+### // delete member using id
+delete http://localhost:5000/api/members/3a97c8e7-9064-4456-9b27-9c52481e6e64
