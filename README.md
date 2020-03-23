@@ -4,7 +4,7 @@ ___
 
 ## Learning Log
 
-### 3/21/20
+### 3/21/2020
 * Started with a basic express app
 * Used the express.static function to generate a couple of static sites.
     * note: Any error in the html file will render the html file useless and will generate an empty page
@@ -15,7 +15,15 @@ ___
         * This, according to others, happens due to the nature of nodemon creating child process but failing to remove them after the parent has been killed.
     * use "lsof -i tcp:<x>" where x is the port that you are working with to see if the port is active
     * if active, use "kill -9 <PID-NUMBER>", your application will have a pid number assigned. [PID - process identifier.]
-    * upon
+
+### 3/22/2020
+* Continued since yesterday
+* installed a new uuid library so randomly generated id values will be used for new members adde via post
+* added a working member editor using HTTP put method
+* added a working member deletor using HTTP delete method
+* all the http requests were made using rest client for vsCode
+
+
 
 ___
 ## TO-DO: 

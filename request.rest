@@ -1,0 +1,24 @@
+###
+post http://localhost:5000/api/members
+Content-Type: application/json
+
+{
+    "first_name": "Test",
+    "last_name": "Wayne",
+    "relation": "Test of Bruce"
+} 
+
+###
+get http://localhost:5000/api/members
+
+
+###
+put http://localhost:5000/api/members/3
+Content-Type: application/json
+
+{
+    "first_name": "Mr. J"
+}
+
+###
+delete http://localhost:5000/api/members/5e16f333-9706-4507-9759-5821d917de9b
