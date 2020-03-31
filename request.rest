@@ -1,24 +1,20 @@
 ### //add new member
-post http://localhost:5000/api/members
+post http://localhost:5000/api/members/registerUser
 Content-Type: application/json
 
 {
-    "first_name": "Batman",
-    "last_name": "",
-    "relation": "Vigilant of Gotham"
+    "firstName": "Bruce",
+    "lastName": "Wayne",
+    "email": "jamesbond@gmail.com",
+    "password": "password"
 } 
 
-### // view all members
-get http://localhost:5000/api/members
 
-
-### // edit one single member detail
-put http://localhost:5000/api/members/
+### //add new member
+post http://localhost:5000/api/members/loginUser
 Content-Type: application/json
 
 {
-    "first_name": "Batsy"
-}
-
-### // delete member using id
-delete http://localhost:5000/api/members/3a97c8e7-9064-4456-9b27-9c52481e6e64
+    "email": "james@james.com",
+    "password": "post"
+} 
