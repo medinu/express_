@@ -19,17 +19,18 @@ app.use(logger);
 //app.use(express.static(path.join(__dirname, 'public')));
 
 //app.get for pages
-app.use('/', require('./router/router'));
+//app.use('/', require('./router/router'));
 
 //[api calls]
-app.use('/api/members', require('./router/members'))
+app.use('/', require('./router/members'))
 
 
 // Connect to db
-mongoose.connect(process.env.DB_CONNECTION,
+mongoose.connect(process.env.DB_CONNECTION, 
     { useNewUrlParser: true, 
     useUnifiedTopology: true},
-    ()=>{console.log("Connected to db")});
+    ()=>{console.log("Connected to db")}
+);
 
 
 // listening to port

@@ -1,5 +1,5 @@
 ### //add new member
-post http://localhost:5000/api/members/registerUser
+post http://localhost:1995/api/members/registerUser
 Content-Type: application/json
 
 {
@@ -10,11 +10,11 @@ Content-Type: application/json
 } 
 
 
-### //add new member
-post http://localhost:5000/api/members/loginUser
+### // login
+post http://localhost:1995/api/members/loginUser
 Content-Type: application/json
 
 {
-    "email": "james@james.com",
-    "password": "post"
+    "email": "death2all@gmail.com",
+    "password": "password"
 } 

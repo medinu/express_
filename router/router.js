@@ -1,11 +1,10 @@
 const express = require('express');
-
 const router = express.Router();
 
 router.use(express.json());
 //router.use(express.urlEncoded())
 
-router.get('/', (req, res)=>{
+/* router.get('/', (req, res)=>{
     res.render('index', {title: 'dball.io'});
 });
 
@@ -24,7 +23,7 @@ router.get('/register', (req, res)=>{
 
 router.get('/login', (req, res)=>{
     res.render('login', {title: 'Login'});
-});
+}); */
 
 
 module.exports = router;

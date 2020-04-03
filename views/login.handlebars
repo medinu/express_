@@ -1,5 +1,11 @@
 <h1 class="text-center mb-3" >Login</h1>
-<form action="/api/members/loginUser" method="post" class="mb-4">
+
+{{#if messages.error}}
+    {{messages.error}}
+{{else}}
+{{/if}}
+
+<form action="/loginUser" method="post" class="mb-4">
     <div class="form-group">
         <label for="email">Email</label>
         <input type="email" name='email' class="form-control" required>

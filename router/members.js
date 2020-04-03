@@ -1,25 +1,72 @@
+if(process.env.NODE_ENV !== 'production'){
+    require('dotenv').config();
+}
+
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const passport = require('passport');
-
-/* const initializePassport = require('./passport-config');
-
-initializePassport(passport, async (email)=>{
-
-}); */
+const flash = require('express-flash');
+const session = require('express-session');
+const methodOverride = require('method-override');
 
 const User = require('../models/user');
+const initializePassport = require('./passport-config');
 
+initializePassport(
+    passport, 
+    (email)=>{ return User.findOne({email: email})},
+    (id) => { return User.findOne({_id: id})}
+);
 
 router.use(express.json());
 router.use(express.urlencoded({extended: false})); 
+
+router.use(flash());
+router.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
+
+router.use(passport.initialize());
+router.use(passport.session());
+router.use(methodOverride('_method'));
+
+
+router.get('/', (req, res)=>{
+    res.render('index', {title: 'dball.io'});
+});
+
+router.get('/members', (req, res)=>{
+    res.render('allMembers', {title: 'Current members'});
+});
+
+router.get('/profile', checkAuthenticated, (req, res)=>{
+    console.log(req.users);
+    res.render('memberProfile', { name:  req});
+})
+
+router.get('/about', (req, res)=>{
+    res.render('about', {title: 'About'});
+});
+
+
+router.get('/register', (req, res)=>{
+    res.render('register', {title: 'Register'});
+});
+
+router.get('/login', checkNotAunthicated, (req, res)=>{
+    res.render('login', {title: 'Login'});
+});
+
 
 // [API] For register page
 router.post('/registerUser', async (req, res)=> {
     try{
         const hashedPassword = await bcrypt.hashSync(req.body.password, 8);
         const newMember = new User({
+            //id: Date.now().toString(),
             firstName: req.body.firstName, 
             lastName: req.body.lastName, 
             email: req.body.email,
@@ -39,33 +86,34 @@ router.post('/registerUser', async (req, res)=> {
 })
 
 
+// [API] for logging in user
+router.post('/loginUser', passport.authenticate('local', {
+    successRedirect: '/profile', 
+    failiureRedirect: '/login',
+    failiureFlash: true
+    })
+)
 
-// [API]for auhthentication user
-router.post('/loginUser', (req, res)=> {
-    const newMember = {
-        email: req.body.email,
-        password: req.body.password
-    }
-
-    /* if(!newMember.email || !newMember.password){
-        return res.status(400).json({msg: 'Please include a email and/or password.'});
-    }  */
-
-    User.findOne({email: newMember.email, password: newMember.password},(err, user)=>{
-            if (err){
-                console.log(err);
-                return res.status(500).send();
-            }
-            if (!user){
-                return res.status(404).send();
-            }
-                return res.status(200).send();
-        })
-
-    res.json(newMember);
-    //res.redirect('/');
+router.delete('/logout', (req, res)=>{
+    req.logOut();
+    res.redirect('/');
 })
 
+
+function checkAuthenticated(req, res, next){
+    if (req.isAuthenticated()){
+        return next();
+    }
+
+    return res.redirect('/')
+}
+
+function checkNotAunthicated(req, res, next){
+    if (req.isAuthenticated()){ 
+        return res.redirect('/');
+    }
+    next();
+}
 
 
 
