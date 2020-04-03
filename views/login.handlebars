@@ -1,8 +1,7 @@
 <h1 class="text-center mb-3" >Login</h1>
 
-{{#if messages.error}}
-    {{messages.error}}
-{{else}}
+{{#if error }}
+    <h2 class="alert alert-primary"> {{error}} </h2>
 {{/if}}
 
 <form action="/loginUser" method="post" class="mb-4">

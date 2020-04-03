@@ -6,29 +6,20 @@ function initialize(passport, getUserByEmail, getUserById){
 
         const user = await getUserByEmail(email);
 
-        console.log(`user: ${user}`)
+        //console.log(`user: ${user}`)
 
         if(user === null){
-            console.log("no user with that email.")
-            return done(null, false, {message: 'No user with that email.'});
+            //console.log("no user with that email.")
+            return done(null, false, { message: 'No user with that email.' });
         }
         try {  
-            console.log(`${user._id} is the user id`);
+            //console.log(`${user._id} is the user id`);
             // if error check link: https://www.npmjs.com/package/bcryptjs
-            if (await bcrypt.compare(password , user.password, function(err, res) {
-                if (res){
-                    console.log("Password matched");
-                    return done(null, user);
-                }else {
-                    console.log(`Entered Password: ${password} \nUser.password: ${user.password}`)
-                    console.log("Password did not match")
-                    return done(null, false, {message: 'Password incorrect'});
-                }
-            })){
+            if (await bcrypt.compare(password , user.password)){
                     /** if statement */
-                //return done(null, user);
+                return done(null, user);
             }else{
-                //return done(null, false, {message: 'Password incorrect'});
+                return done(null, false, { message: 'Password incorrect' });
             }
         } catch (err) {
             return done(err);
@@ -38,9 +29,17 @@ function initialize(passport, getUserByEmail, getUserById){
 
     passport.use(new LocalStrategy({ usernameField: 'email'}, 
     authenticateUser))
-    passport.serializeUser((user, done)=> done(null, user._id));
-    passport.deserializeUser((id, done)=>{
-        return done(null, getUserById(id));
+    passport.serializeUser((user, done)=> {
+        //console.log(`${user} & ${user.id}`);
+        done(null, user.id)
+    });
+    passport.deserializeUser(async (id, done)=>{
+        //console.log(`${id}-dederializeUser`);
+        
+        const user = await getUserById(id);
+        //console.log(`user deserial: ${user}`)
+
+        return done(null, user );
     });
 }
 

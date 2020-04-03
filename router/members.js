@@ -42,9 +42,9 @@ router.get('/members', (req, res)=>{
     res.render('allMembers', {title: 'Current members'});
 });
 
-router.get('/profile', checkAuthenticated, (req, res)=>{
-    console.log(req.users);
-    res.render('memberProfile', { name:  req});
+router.get('/dashboard', checkAuthenticated, (req, res)=>{
+    //console.log(req.user);
+    res.render('dashboard', { name:  req.user.firstName});
 })
 
 router.get('/about', (req, res)=>{
@@ -57,7 +57,7 @@ router.get('/register', (req, res)=>{
 });
 
 router.get('/login', checkNotAunthicated, (req, res)=>{
-    res.render('login', {title: 'Login'});
+    res.render('login', {title: 'Login' , error: req.flash('error')});
 });
 
 
@@ -88,7 +88,7 @@ router.post('/registerUser', async (req, res)=> {
 
 // [API] for logging in user
 router.post('/loginUser', passport.authenticate('local', {
-    successRedirect: '/profile', 
+    successRedirect: '/dashboard', 
     failiureRedirect: '/login',
     failiureFlash: true
     })
