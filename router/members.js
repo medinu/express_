@@ -35,20 +35,51 @@ router.use(methodOverride('_method'));
 
 
 router.get('/', (req, res)=>{
-    res.render('index', {title: 'dball.io'});
+    if (!req.isAuthenticated()){
+        res.render('index', {title: 'dball.io'}); 
+    } else{
+        const curr_user = { 
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            email: req.user.email,
+            id: req.user._id, }
+        res.render('profile', {title: 'dball.io', user: curr_user, layout: 'dashboard'}); 
+    }
 });
 
 router.get('/members', (req, res)=>{
-    res.render('allMembers', {title: 'Current members'});
+    if (!req.isAuthenticated()){
+        res.render('allMembers', {title: 'Current members'});
+    } else{
+        const curr_user = { 
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            email: req.user.email,
+            id: req.user._id, }
+        res.render('allMembers', {title: 'Current members', user: curr_user, layout: 'dashboard'});
+    }
 });
 
-router.get('/dashboard', checkAuthenticated, (req, res)=>{
-    //console.log(req.user);
-    res.render('dashboard', { name:  req.user.firstName});
+router.get('/profile', checkAuthenticated, (req, res)=>{
+    const curr_user = { 
+        firstName: req.user.firstName,
+        lastName: req.user.lastName,
+        email: req.user.email,
+        id: req.user._id }
+    res.render('profile', {layout: 'dashboard',  user: curr_user});
 })
 
 router.get('/about', (req, res)=>{
-    res.render('about', {title: 'About'});
+    if (!req.isAuthenticated()){
+        res.render('about', {title: 'About'});
+    } else{
+        const curr_user = { 
+            firstName: req.user.firstName,
+            lastName: req.user.lastName,
+            email: req.user.email,
+            id: req.user._id, }
+        res.render('about', {title: 'About', user: curr_user, layout: 'dashboard'});
+    }
 });
 
 
@@ -56,7 +87,7 @@ router.get('/register', (req, res)=>{
     res.render('register', {title: 'Register'});
 });
 
-router.get('/login', checkNotAunthicated, (req, res)=>{
+router.get('/login', checkNotAuthenticated, (req, res)=>{
     res.render('login', {title: 'Login' , error: req.flash('error')});
 });
 
@@ -88,7 +119,7 @@ router.post('/registerUser', async (req, res)=> {
 
 // [API] for logging in user
 router.post('/loginUser', passport.authenticate('local', {
-    successRedirect: '/dashboard', 
+    successRedirect: '/profile', 
     failiureRedirect: '/login',
     failiureFlash: true
     })
@@ -108,7 +139,7 @@ function checkAuthenticated(req, res, next){
     return res.redirect('/')
 }
 
-function checkNotAunthicated(req, res, next){
+function checkNotAuthenticated(req, res, next){
     if (req.isAuthenticated()){ 
         return res.redirect('/');
     }

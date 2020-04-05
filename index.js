@@ -1,6 +1,7 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
 const mongoose = require('mongoose');
+const path = require('path');
 
 const logger = require('./middleware/logger')
 
@@ -10,7 +11,8 @@ require('dotenv/config');
 const app = express();
 
 // Handlebars middleware
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({defaultLayout: 'main', layoutDir: __dirname + '/views/layouts/'}));
+app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'handlebars');
 
 //logger middleware
