@@ -2,7 +2,17 @@
 
 <ul class="list-group">
     {{#each members}}
-    <li class="list-group-item">{{this.firsName}} {{this.lastName}}: {{this.email}}</li>
+            <li class="list-group-item">
+                <p class="p-0 m-0 flex-grow-1">{{this.firstName}} {{lastName}}
+                    <button class="btn btn-default btn-sm pull-right remove-item">
+                        <span class="glyphicon glyphicon-envelope"></span>
+                    </button>
+                    <button class="btn btn-default btn-sm pull-right remove-item">
+                        <a href="/user/{{this._id}}"><span class="glyphicon glyphicon-user"></span></span></a>
+                    </button>
+                </p>
+                
+            </li>
     {{/each}}
 </ul>
 

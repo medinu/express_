@@ -47,16 +47,18 @@ router.get('/', (req, res)=>{
     }
 });
 
-router.get('/members', (req, res)=>{
+router.get('/members', async (req, res)=>{
     if (!req.isAuthenticated()){
         res.render('allMembers', {title: 'Current members'});
     } else{
+        const members = await User.find({}).lean(); //lean returns plain js object rather than mongoose object
+        console.log(`${members}`);
         const curr_user = { 
             firstName: req.user.firstName,
             lastName: req.user.lastName,
             email: req.user.email,
             id: req.user._id, }
-        res.render('allMembers', {title: 'Current members', user: curr_user, layout: 'dashboard'});
+        res.render('allMembers', {title: 'Current members', user: curr_user, layout: 'dashboard', members: members});
     }
 });
 
@@ -65,7 +67,7 @@ router.get('/profile', checkAuthenticated, (req, res)=>{
         firstName: req.user.firstName,
         lastName: req.user.lastName,
         email: req.user.email,
-        id: req.user._id }
+        _id: req.user._id }
     res.render('profile', {layout: 'dashboard',  user: curr_user});
 })
 
@@ -88,7 +90,7 @@ router.get('/register', (req, res)=>{
 });
 
 router.get('/login', checkNotAuthenticated, (req, res)=>{
-    res.render('login', {title: 'Login' , error: req.flash('error')});
+    res.render('login', {title: 'Login'});
 });
 
 
@@ -120,8 +122,8 @@ router.post('/registerUser', async (req, res)=> {
 // [API] for logging in user
 router.post('/loginUser', passport.authenticate('local', {
     successRedirect: '/profile', 
-    failiureRedirect: '/login',
-    failiureFlash: true
+    failureRedirect: '/login',
+    failureFlash: true
     })
 )
 
@@ -199,24 +201,24 @@ router.put('/:id', (req, res) => {
     
 });
 
-// [API] deletes a member by id(string)
-router.delete('/:id', (req, res)=>{
-    const found = members.some(member => member.id === req.params.id);
-    
-    const idx = members.findIndex(obj => obj.id === req.params.id );
-
-    members.splice(idx, 1);
-
-    if (found){
-        
-        res.json({
-            msg: "member has been deleted",
-            members: members.filter(member => member.id !== req.params.id)
-        });
-    }else{
-        res.status(400).json({msg: `no member exists with the id of ${req.params.id}`});
+// [API] gets a member by id(string)
+router.get('/user/:id', async (req, res)=>{
+    if (!req.isAuthenticated()){
+        res.render('index', {title: 'dball.io'}); 
+    } else{
+        const found = await User.findOne({_id: req.params.id}).lean();
+        if (!found){
+            console.log("user not found.");
+        }else{
+            const curr_user = { 
+                firstName: req.user.firstName,
+                lastName: req.user.lastName,
+                email: req.user.email,
+                _id: req.user._id }
+            res.render('profile', {layout: 'dashboard',  user: curr_user, new_user: found, redirect: true})
+        }   
     }
-
+    
 });
 
 

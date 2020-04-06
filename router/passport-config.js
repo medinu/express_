@@ -6,19 +6,16 @@ function initialize(passport, getUserByEmail, getUserById){
 
         const user = await getUserByEmail(email);
 
-        //console.log(`user: ${user}`)
-
         if(user === null){
-            //console.log("no user with that email.")
+            console.log("no user with that email.")
             return done(null, false, { message: 'No user with that email.' });
         }
         try {  
-            //console.log(`${user._id} is the user id`);
-            // if error check link: https://www.npmjs.com/package/bcryptjs
             if (await bcrypt.compare(password , user.password)){
-                    /** if statement */
+                console.log("Correct password");
                 return done(null, user);
             }else{
+                console.log("incorrect password");
                 return done(null, false, { message: 'Password incorrect' });
             }
         } catch (err) {
@@ -30,16 +27,11 @@ function initialize(passport, getUserByEmail, getUserById){
     passport.use(new LocalStrategy({ usernameField: 'email'}, 
     authenticateUser))
     passport.serializeUser((user, done)=> {
-        //console.log(`${user} & ${user.id}`);
         done(null, user.id)
     });
     passport.deserializeUser(async (id, done)=>{
-        //console.log(`${id}-dederializeUser`);
-        
         const user = await getUserById(id);
-        //console.log(`user deserial: ${user}`)
-
-        return done(null, user );
+        return done(null, user);
     });
 }
 

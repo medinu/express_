@@ -1,10 +1,11 @@
 <h1 class="text-center mb-3" >Login</h1>
 
-{{#if error }}
-    <h2 class="alert alert-primary"> {{error}} </h2>
-{{/if}}
-
 <form action="/loginUser" method="post" class="mb-4">
+    {{#if messages.error }}
+        <div class="alert alert-danger text-center" role="alert">
+            {{messages.error}}
+        </div>
+    {{/if}}
     <div class="form-group">
         <label for="email">Email</label>
         <input type="email" name='email' class="form-control" required>

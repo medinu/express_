@@ -2,15 +2,28 @@
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
-<h1>Hello, {{ user.firstName }}</h1>
+{{#if redirect }}
+    <div class="container"> 
+        <h1>Viewing as, {{ user.firstName }}</h1>
+        <ul>
+            <li>Name: {{ new_user.firstName}} {{new_user.lastName }}</li>
+            <li>Email: {{ new_user.email }} </li>
+            <li>id: {{ new_user._id }} </li>
+        </ul>
+    </div>
+    
+{{else}}
+    <div class="container"> 
+        <h1>Hello, {{ user.firstName }}</h1>
+        <ul> 
+            <li>Name: {{ user.firstName}} {{user.lastName }}</li>
+            <li>Email: {{ user.email }} </li>
+            <li>id: {{ user._id }} </li>
+        </ul>
+    </div>  
 
-<div class="container"> 
-    <ul>
-        <li>Name: {{ user.firstName}} {{user.lastName }}</li>
-        <li>Email: {{ user.email }} </li>
-        <li>id: {{ user.id }} </li>
-    </ul>
-</div>
+{{/if}}
+
 
 
        

@@ -2,7 +2,6 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-       {{!--  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> --}}
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> {{!-- navbar --}}
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -25,32 +24,12 @@
                     <li><p class="navbar-text">Signed in as: {{user.firstName}} {{user.lastName}}</p></li>
                     <li>
                         <form class="navbar-form form-inline " action="/logout?_method=DELETE" method="post">
-                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-                            <span class="glyphicon glyphicon-log-out"></span> Logout
-                        </button>
-                    </form>
-
-                    </li>
-                </ul>
-
-                
-
-                {{!-- <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <p class="navbar-text" >Signed in as: {{user.firstName}} {{user.lastName}}</p>
-                    </li>
-                    </li>
-                        <form action="/logout?_method=DELETE" method="post" class="form-inline my-2 my-lg-0">
-                            </p>      
-                            <button type="submit" class="btn btn-outline-success my-2 my-sm-0">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
                                 <span class="glyphicon glyphicon-log-out"></span> Logout
-                            </button> 
+                            </button>
                         </form>
-                    <li>
-                        
-
+                    </li>
                 </ul>
-               --}}
             </div>
         </nav>
         <div class="container mt4">
