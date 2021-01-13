@@ -13,6 +13,7 @@ const methodOverride = require('method-override');
 const User = require('../models/user');
 const initializePassport = require('./passport-config');
 
+
 initializePassport(
     passport, 
     (email)=>{ return User.findOne({email: email})},
@@ -112,6 +113,8 @@ router.post('/registerUser', async (req, res)=> {
         }).catch(err=>{
             res.json({message: error})
         })
+        
+
     }catch(err){
         console.log(err);
         res.json(err);
