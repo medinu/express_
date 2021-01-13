@@ -3,6 +3,17 @@
 ___
 ___
 
+## to get started
+* Clone the Repo
+* use 'npm install' to install all dependencies
+* After dependedncies have installed, create a .env file that contains
+  * DB_CONNECTION - for mongoDB
+  * HOST - for express app
+  * Port - for express app
+  * Secret - for express session 
+
+___
+
 ## Learning Log
 
 ### 3/21/2020
@@ -41,6 +52,7 @@ ___
 * go through the file structure and remove what is not needed
 
 ___
+
 ___
 
  
