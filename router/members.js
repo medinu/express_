@@ -11,13 +11,12 @@ const session = require('express-session');
 const methodOverride = require('method-override');
 
 const User = require('../models/user');
+
 const initializePassport = require('./passport-config');
-
-
 initializePassport(
     passport, 
-    (email)=>{ return User.findOne({email: email})},
-    (id) => { return User.findOne({_id: id})}
+    (email)=>{ return User.findOne({email: email})},    //Get user by email
+    (id) => { return User.findOne({_id: id})}           //Get user by id
 );
 
 router.use(express.json());
@@ -98,21 +97,28 @@ router.get('/login', checkNotAuthenticated, (req, res)=>{
 // [API] For register page
 router.post('/registerUser', async (req, res)=> {
     try{
-        const hashedPassword = await bcrypt.hashSync(req.body.password, 8);
-        const newMember = new User({
-            //id: Date.now().toString(),
-            firstName: req.body.firstName, 
-            lastName: req.body.lastName, 
-            email: req.body.email,
-            password: hashedPassword
-        });
+        const findUser = await User.findOne({email: req.body.email}).lean();
 
-        newMember.save()
-        .then(data=>{
-            res.status(200).redirect('/');
-        }).catch(err=>{
-            res.json({message: error})
-        })
+        
+        if (!findUser){
+            const hashedPassword = await bcrypt.hashSync(req.body.password, 8);
+            const newMember = new User({
+                //id: Date.now().toString(),
+                firstName: req.body.firstName, 
+                lastName: req.body.lastName, 
+                email: req.body.email,
+                password: hashedPassword
+            });
+    
+            newMember.save()
+            .then(data=>{
+                res.status(200).redirect('/');
+            }).catch(err=>{
+                res.json({message: error})
+            })    
+        } else{
+            res.json({message: "Duplicate user"});
+        }
         
 
     }catch(err){
